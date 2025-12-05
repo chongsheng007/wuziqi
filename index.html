@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五子棋对战平台 - 动态房间版</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 房间列表页面 -->
+    <div id="roomListPage" class="page">
+        <div class="container">
+            <h1>🎯 五子棋对战平台</h1>
+
+            <div class="user-info">
+                <span>玩家: </span>
+                <input type="text" id="playerName" placeholder="输入你的昵称" value="玩家">
+                <button onclick="setPlayerName()">设置</button>
+            </div>
+
+            <div class="room-actions">
+                <button class="btn-create" onclick="createRoom()">
+                    ➕ 创建新房间
+                </button>
+                <button class="btn-quick" onclick="quickJoin()">
+                    ⚡ 快速加入
+                </button>
+            </div>
+
+            <div class="rooms-section">
+                <h2>🏠 房间列表</h2>
+                <div id="roomsList">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 游戏页面 -->
+    <div id="gamePage" class="page" style="display: none;">
+        <div class="game-header">
+            <div class="room-info">
+                <span>房间号: <strong id="roomId"></strong></span>
+                <span>玩家1: <strong id="player1"></strong></span>
+                <span>玩家2: <strong id="player2"></strong></span>
+            </div>
+            <button class="btn-back" onclick="leaveRoom()">退出房间</button>
+        </div>
+
+        <div class="game-wrapper">
+            <div class="game-container">
+                <div class="board-section">
+                    <canvas id="gameCanvas" width="600" height="600"></canvas>
+                    <div class="game-status" id="gameStatus"></div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-card">
+                        <h3>游戏信息</h3>
+                        <div class="current-player">
+                            <span>当前玩家:</span>
+                            <span class="player-indicator black" id="playerIndicator"></span>
+                            <span id="currentPlayerText">等待中...</span>
+                        </div>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="moveCount">0</div>
+                                <div class="stat-label">步数</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="gameTime">00:00</div>
+                                <div class="stat-label">时间</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>游戏控制</h3>
+                        <div class="controls">
+                            <button id="restartBtn" class="btn-restart" onclick="restartGame()">
+                                重新开始
+                            </button>
+                            <button id="spectateBtn" class="btn-spectate" onclick="toggleSpectate()">
+                                观战模式
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>聊天室</h3>
+                        <div class="chat-container">
+                            <div id="chatMessages" class="chat-messages"></div>
+                            <div class="chat-input">
+                                <input type="text" id="chatInput" placeholder="输入消息..." onkeypress="handleChatEnter(event)">
+                                <button onclick="sendMessage()">发送</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 创建房间弹窗 -->
+    <div id="createRoomModal" class="modal">
+        <div class="modal-content">
+            <h2>创建新房间</h2>
+            <div class="form-group">
+                <label>房间名称:</label>
+                <input type="text" id="roomName" placeholder="给房间起个名字">
+            </div>
+            <div class="form-group">
+                <label>房间密码:</label>
+                <input type="password" id="roomPassword" placeholder="留空表示公开房间">
+            </div>
+            <div class="form-group">
+                <label>游戏设置:</label>
+                <select id="gameMode">
+                    <option value="classic">经典模式</option>
+                    <option value="swap2">Swap2模式</option>
+                    <option value="renju">连珠规则</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button onclick="confirmCreateRoom()">创建</button>
+                <button onclick="closeModal('createRoomModal')">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/game.js"></script>
+</body>
+</html>
